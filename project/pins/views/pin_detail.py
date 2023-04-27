@@ -1,7 +1,9 @@
 from rest_framework import generics
-from ..models import Pin
-from ..serializers import PinSerializer
+from pins.models import Pin
+from pins.serializers import PinSerializer
+from shared.permissions import IsOwnerOrReadOnly
 
 class PinDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Pin.objects.all()
     serializer_class = PinSerializer
+    permission_classes = [IsOwnerOrReadOnly,]

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import *
+from pins.views import *
 
 urlpatterns = [
     path('', PinList.as_view()),
