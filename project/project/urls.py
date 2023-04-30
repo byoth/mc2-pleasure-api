@@ -14,12 +14,24 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
 from django.contrib import admin
 from django.urls import include, path
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="mc2-pleasure-api",
+      default_version='v1',
+   ),
+   public=True,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0)),
+
     path('musics/', include('musics.urls')),
     path('pins/', include('pins.urls')),
     path('users/', include('users.urls')),
