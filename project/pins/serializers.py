@@ -13,6 +13,12 @@ class PinSerializer(serializers.ModelSerializer):
         exclude = ('user',)
         read_only_fields = ('created_at',)
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['latitude'] = float(ret['latitude'])
+        ret['longitude'] = float(ret['longitude'])
+        return ret
+
     def create(self, validated_data):
         music_data = validated_data.pop('music')
         music = self.__update_or_create_music(music_data)
