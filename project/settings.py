@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from dotenv import load_dotenv
-from os import getenv
+import os
 from pathlib import Path
 
 load_dotenv()
@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-!s@82s!7v12bw)y=cd@c7klh(1!(_ix)16k*73)1j4q!685lnz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['prod.eba-abpsggka.ap-northeast-2.elasticbeanstalk.com', 'test.eba-abpsggka.ap-northeast-2.elasticbeanstalk.com', 'localhost',]
 
 
 # Application definition
@@ -88,11 +88,11 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': getenv('DB_NAME'),
-        'USER': getenv('DB_USER'),
-        'PASSWORD': getenv('DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv('RDS_DB_NAME'),
+        'USER': os.getenv('RDS_USERNAME'),
+        'PASSWORD': os.getenv('RDS_PASSWORD'),
+        'HOST': os.getenv('RDS_HOSTNAME'),
+        'PORT': os.getenv('RDS_PORT'),
     }
 }
 
@@ -131,7 +131,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
