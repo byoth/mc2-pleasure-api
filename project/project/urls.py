@@ -34,5 +34,6 @@ urlpatterns = [
 
     path('musics/', include('musics.urls')),
     path('pins/', include('pins.urls')),
+    path('pin_clusters/', include('pin_clusters.urls')),
     path('users/', include('users.urls')),
 ]

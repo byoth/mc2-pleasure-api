@@ -1,0 +1,1 @@
+from pin_clusters.views.pin_cluster_list import PinClusterList

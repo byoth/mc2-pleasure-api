@@ -43,9 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'drf_yasg',
+    'haversine',
     'rest_framework',
     'musics',
     'pins',
+    'pin_clusters',
     'users',
 ]
 
