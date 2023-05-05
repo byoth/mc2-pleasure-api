@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'haversine',
     'rest_framework',
+    'rest_framework.authtoken',
     'musics',
     'pins',
     'pin_clusters',
