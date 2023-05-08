@@ -18,6 +18,7 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from django.contrib import admin
 from django.urls import include, path
+from project.views import get_csrf_token
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -31,6 +32,7 @@ urlpatterns = [
     path('', schema_view.with_ui('swagger', cache_timeout=0)),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
+    path('csrf_token/', get_csrf_token),
 
     path('musics/', include('musics.urls')),
     path('pins/', include('pins.urls')),
