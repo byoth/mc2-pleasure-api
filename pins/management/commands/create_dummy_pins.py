@@ -15,8 +15,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         pins_count = options['pins_count']
         musics = Music.objects.all()
+        if not musics:
+            Music.objects.create(
+                applemusic_id='sample',
+                title='Title',
+                artist_name='Artist',
+                created_at=timezone.now(),
+            )
         users = User.objects.all()
-
         for _ in range(pins_count):
             music = random.choice(musics)
             user = random.choice(users)
@@ -25,8 +31,8 @@ class Command(BaseCommand):
                 user=user,
                 latitude=Decimal(random.uniform(-90, 90)),
                 longitude=Decimal(random.uniform(-180, 180)),
-                administrative_area='Somewhere',
-                locality='어딘가',
+                locality='Somewhere',
+                sub_locality='어딘가',
                 weather=random.choice(['sunny', 'cloudy', 'rainy', 'snowy']),
                 temperature=random.randint(-20, 40),
                 created_at=timezone.now(),
