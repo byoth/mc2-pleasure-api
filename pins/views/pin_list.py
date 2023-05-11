@@ -12,6 +12,7 @@ class PinList(generics.ListCreateAPIView):
 
     @swagger_auto_schema(
         manual_parameters=[
+            openapi.Parameter('category', openapi.IN_QUERY, type=openapi.TYPE_STRING),
             openapi.Parameter('center_latitude', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
             openapi.Parameter('center_longitude', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
             openapi.Parameter('horizontal_radius', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
@@ -25,11 +26,10 @@ class PinList(generics.ListCreateAPIView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
+        category = self.request.query_params.get('category')
         center_latitude = self.request.query_params.get('center_latitude')
         center_longitude = self.request.query_params.get('center_longitude')
         horizontal_radius = self.request.query_params.get('horizontal_radius')
         vertical_radius = self.request.query_params.get('vertical_radius')
-
-        pins = get_pins(center_latitude, center_longitude, horizontal_radius, vertical_radius)
-
-        return pins
+        
+        return get_pins(self.request.user, category, center_latitude, center_longitude, horizontal_radius, vertical_radius)

@@ -14,6 +14,7 @@ class PinClusterList(generics.ListAPIView):
 
     @swagger_auto_schema(
         manual_parameters=[
+            openapi.Parameter('category', openapi.IN_QUERY, type=openapi.TYPE_STRING, required=False, enum=['mine', 'others']),
             openapi.Parameter('center_latitude', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
             openapi.Parameter('center_longitude', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
             openapi.Parameter('horizontal_radius', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
@@ -27,13 +28,13 @@ class PinClusterList(generics.ListAPIView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
+        category = self.request.query_params.get('category')
         center_latitude = self.request.query_params.get('center_latitude')
         center_longitude = self.request.query_params.get('center_longitude')
         horizontal_radius = self.request.query_params.get('horizontal_radius')
         vertical_radius = self.request.query_params.get('vertical_radius')
 
-        pins = get_pins(center_latitude, center_longitude, horizontal_radius, vertical_radius)
+        pins = get_pins(self.request.user, category, center_latitude, center_longitude, horizontal_radius, vertical_radius)
         radius = get_radius(horizontal_radius, vertical_radius)
-        pin_clusters = get_pin_clusters(pins, radius)
 
-        return pin_clusters
+        return get_pin_clusters(pins, radius)
