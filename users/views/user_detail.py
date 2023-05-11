@@ -3,7 +3,7 @@ from rest_framework import generics
 from shared.permissions import IsMeOrReadOnly
 from users.serializers import UserSerializer
 
-class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsMeOrReadOnly,]
