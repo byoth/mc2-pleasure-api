@@ -6,7 +6,7 @@ from pins.models import Pin
 from pin_clusters.models import PinCluster
 from pin_clusters.serializers import PinClusterSerializer
 from pins.utils import get_pins
-from pin_clusters.utils import get_pin_clusters
+from pin_clusters.utils import get_radius, get_pin_clusters
 
 class PinClusterList(generics.ListAPIView):
     serializer_class = PinClusterSerializer
@@ -33,6 +33,7 @@ class PinClusterList(generics.ListAPIView):
         vertical_radius = self.request.query_params.get('vertical_radius')
 
         pins = get_pins(center_latitude, center_longitude, horizontal_radius, vertical_radius)
-        pin_clusters = get_pin_clusters(pins, 100)
+        radius = get_radius(horizontal_radius, vertical_radius)
+        pin_clusters = get_pin_clusters(pins, radius)
 
         return pin_clusters
