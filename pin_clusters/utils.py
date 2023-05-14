@@ -6,7 +6,7 @@ def get_radius(horizontal_radius, vertical_radius):
     if not horizontal_radius or not vertical_radius:
         return 0
 
-    return min(float(horizontal_radius), float(vertical_radius)) / 10
+    return min(float(horizontal_radius), float(vertical_radius)) * 10
 
 def get_pin_clusters(pins, radius):
     # pin의 개수가 0이면 빈 리스트 반환

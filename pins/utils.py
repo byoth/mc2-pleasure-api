@@ -9,6 +9,8 @@ def get_pins(user, category, center_latitude, center_longitude, horizontal_radiu
     else:
         pins = Pin.objects.all()
 
+    pins = pins.order_by('-created_at')
+
     if center_latitude and center_longitude and horizontal_radius and vertical_radius:
         center_latitude = float(center_latitude)
         center_longitude = float(center_longitude)
