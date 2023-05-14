@@ -17,8 +17,8 @@ class PinClusterList(generics.ListAPIView):
             openapi.Parameter('category', openapi.IN_QUERY, type=openapi.TYPE_STRING, required=False, enum=['mine', 'others']),
             openapi.Parameter('center_latitude', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
             openapi.Parameter('center_longitude', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
-            openapi.Parameter('horizontal_radius', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
-            openapi.Parameter('vertical_radius', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
+            openapi.Parameter('latitude_delta', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
+            openapi.Parameter('longitude_delta', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
         ],
         responses={
             200: PinClusterSerializer(many=True),
@@ -31,10 +31,10 @@ class PinClusterList(generics.ListAPIView):
         category = self.request.query_params.get('category')
         center_latitude = self.request.query_params.get('center_latitude')
         center_longitude = self.request.query_params.get('center_longitude')
-        horizontal_radius = self.request.query_params.get('horizontal_radius')
-        vertical_radius = self.request.query_params.get('vertical_radius')
+        latitude_delta = self.request.query_params.get('latitude_delta')
+        longitude_delta = self.request.query_params.get('longitude_delta')
 
-        pins = get_pins(self.request.user, category, center_latitude, center_longitude, horizontal_radius, vertical_radius)
-        radius = get_radius(horizontal_radius, vertical_radius)
+        pins = get_pins(self.request.user, category, center_latitude, center_longitude, latitude_delta, longitude_delta)
+        radius = get_radius(latitude_delta, longitude_delta)
 
         return get_pin_clusters(pins, radius)

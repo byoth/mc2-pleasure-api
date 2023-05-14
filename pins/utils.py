@@ -1,7 +1,7 @@
 from django.db.models import Q
 from pins.models import Pin
 
-def get_pins(user, category=None, center_latitude=None, center_longitude=None, horizontal_radius=None, vertical_radius=None):
+def get_pins(user, category=None, center_latitude=None, center_longitude=None, latitude_delta=None, longitude_delta=None):
     if category == 'mine' and user.is_authenticated:
         pins = Pin.objects.filter(user=user)
     elif category == 'others' and user.is_authenticated:
@@ -11,16 +11,16 @@ def get_pins(user, category=None, center_latitude=None, center_longitude=None, h
 
     pins = pins.order_by('-created_at')
 
-    if center_latitude and center_longitude and horizontal_radius and vertical_radius:
+    if center_latitude and center_longitude and latitude_delta and longitude_delta:
         center_latitude = float(center_latitude)
         center_longitude = float(center_longitude)
-        horizontal_radius = float(horizontal_radius)
-        vertical_radius = float(vertical_radius)
+        latitude_delta = float(latitude_delta)
+        longitude_delta = float(longitude_delta)
 
-        min_latitude = center_latitude - horizontal_radius
-        min_longitude = center_longitude - vertical_radius
-        max_latitude = center_latitude + horizontal_radius
-        max_longitude = center_longitude + vertical_radius
+        min_latitude = center_latitude - latitude_delta / 2
+        min_longitude = center_longitude - longitude_delta / 2
+        max_latitude = center_latitude + latitude_delta / 2
+        max_longitude = center_longitude + longitude_delta / 2
         
         return pins.filter(
             latitude__gte=min_latitude,
