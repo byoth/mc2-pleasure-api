@@ -1,7 +1,7 @@
 from django.db.models import Q
 from pins.models import Pin
 
-def get_pins(user, category, center_latitude, center_longitude, horizontal_radius, vertical_radius):
+def get_pins(user, category=None, center_latitude=None, center_longitude=None, horizontal_radius=None, vertical_radius=None):
     if category == 'mine' and user.is_authenticated:
         pins = Pin.objects.filter(user=user)
     elif category == 'others' and user.is_authenticated:
