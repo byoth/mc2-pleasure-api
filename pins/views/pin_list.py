@@ -12,11 +12,7 @@ class PinList(generics.ListCreateAPIView):
 
     @swagger_auto_schema(
         manual_parameters=[
-            openapi.Parameter('category', openapi.IN_QUERY, type=openapi.TYPE_STRING, required=False, enum=['mine', 'others']),
-            openapi.Parameter('center_latitude', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
-            openapi.Parameter('center_longitude', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
-            openapi.Parameter('latitude_delta', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
-            openapi.Parameter('longitude_delta', openapi.IN_QUERY, type=openapi.TYPE_NUMBER),
+            openapi.Parameter('ids', openapi.IN_QUERY, type=openapi.TYPE_STRING),
         ],
         responses={
             200: PinSerializer(many=True),
@@ -26,10 +22,17 @@ class PinList(generics.ListCreateAPIView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
+        ids = self.request.query_params.get('ids')
+        
+        # TODO: remove
         category = self.request.query_params.get('category')
         center_latitude = self.request.query_params.get('center_latitude')
         center_longitude = self.request.query_params.get('center_longitude')
         latitude_delta = self.request.query_params.get('latitude_delta')
         longitude_delta = self.request.query_params.get('longitude_delta')
 
-        return get_pins(self.request.user, category, center_latitude, center_longitude, latitude_delta, longitude_delta)
+        if ids:
+            ids_list = list(map(lambda i: int(i), ids.split(',')))
+            return Pin.objects.filter(id__in=ids_list)
+        else:
+            return get_pins(self.request.user, category, center_latitude, center_longitude, latitude_delta, longitude_delta)
