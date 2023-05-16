@@ -45,10 +45,11 @@ def get_pin_clusters(pins, radius):
 
         # 클러스터 객체 생성
         main_pin = pins[new_cluster[0]]
+        pin_ids = map(lambda p: pins[p].id, new_cluster)
         pins_count = len(new_cluster)
         latitude = np.mean(pin_locations[new_cluster, 0])
         longitude = np.mean(pin_locations[new_cluster, 1])
-        cluster = PinCluster(main_pin, pins_count, latitude, longitude)
+        cluster = PinCluster(main_pin, pin_ids, pins_count, latitude, longitude)
 
         # 클러스터 추가
         clusters.append(cluster)

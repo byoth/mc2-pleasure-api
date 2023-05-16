@@ -5,6 +5,7 @@ from pin_clusters.models import PinCluster
 
 class PinClusterSerializer(serializers.Serializer):
     main_pin = PinSerializer(read_only=True)
+    pin_ids = serializers.ListField(child=serializers.IntegerField())
     pins_count = serializers.IntegerField()
     latitude = serializers.DecimalField(max_digits=9, decimal_places=6)
     longitude = serializers.DecimalField(max_digits=9, decimal_places=6)
