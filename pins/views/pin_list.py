@@ -23,16 +23,9 @@ class PinList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         ids = self.request.query_params.get('ids')
-        
-        # TODO: remove
-        category = self.request.query_params.get('category')
-        center_latitude = self.request.query_params.get('center_latitude')
-        center_longitude = self.request.query_params.get('center_longitude')
-        latitude_delta = self.request.query_params.get('latitude_delta')
-        longitude_delta = self.request.query_params.get('longitude_delta')
 
         if ids:
             ids_list = list(map(lambda i: int(i), ids.split(',')))
-            return Pin.objects.filter(id__in=ids_list)
+            return Pin.objects.filter(id__in=ids_list).order_by('-created_at')
         else:
             return get_pins(self.request.user, category, center_latitude, center_longitude, latitude_delta, longitude_delta)
